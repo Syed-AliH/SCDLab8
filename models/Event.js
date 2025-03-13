@@ -42,7 +42,6 @@ const eventSchema = new mongoose.Schema(
   },
 )
 
-// Index for efficient querying
 eventSchema.index({ date: 1, user: 1 })
 eventSchema.index({ category: 1, user: 1 })
 

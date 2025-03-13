@@ -1,17 +1,11 @@
-// In-memory data store using arrays
 
-// Generate a unique ID
 export const generateId = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
   }
-  
-  // Data stores
   export const users = []
   export const events = []
   export const categories = []
-  
-  // Helper functions for users
-  export const findUserById = (id) => {
+    export const findUserById = (id) => {
     return users.find((user) => user.id === id)
   }
   
@@ -22,7 +16,7 @@ export const generateId = () => {
   export const findUserByUsername = (username) => {
     return users.find((user) => user.username === username)
   }
-  
+
   export const createUser = (userData) => {
     const newUser = {
       id: generateId(),
@@ -34,7 +28,6 @@ export const generateId = () => {
     return newUser
   }
   
-  // Helper functions for events
   export const findEventById = (id) => {
     return events.find((event) => event.id === id)
   }
@@ -42,13 +35,10 @@ export const generateId = () => {
   export const findEventsByUser = (userId, filters = {}) => {
     let filteredEvents = events.filter((event) => event.userId === userId)
   
-    // Apply category filter
     if (filters.category) {
       filteredEvents = filteredEvents.filter((event) => event.categoryId === filters.category)
     }
-  
-    // Apply date range filter
-    if (filters.startDate || filters.endDate) {
+      if (filters.startDate || filters.endDate) {
       filteredEvents = filteredEvents.filter((event) => {
         const eventDate = new Date(event.date)
         if (filters.startDate && eventDate < new Date(filters.startDate)) {
@@ -95,9 +85,7 @@ export const generateId = () => {
     events.splice(index, 1)
     return true
   }
-  
-  // Helper functions for categories
-  export const findCategoryById = (id) => {
+    export const findCategoryById = (id) => {
     return categories.find((category) => category.id === id)
   }
   
@@ -133,7 +121,6 @@ export const generateId = () => {
     const index = categories.findIndex((category) => category.id === id)
     if (index === -1) return false
   
-    // Check if any events are using this category
     const eventsWithCategory = events.filter((event) => event.categoryId === id).length
     if (eventsWithCategory > 0) {
       return { deleted: false, eventsCount: eventsWithCategory }
@@ -143,7 +130,6 @@ export const generateId = () => {
     return { deleted: true }
   }
   
-  // Helper functions for reminders
   export const addReminderToEvent = (eventId, reminderTime) => {
     const event = findEventById(eventId)
     if (!event) return null
@@ -200,9 +186,7 @@ export const generateId = () => {
         })
       }
     })
-  
-    // Sort by reminder time
-    reminders.sort((a, b) => a.reminderTime - b.reminderTime)
+      reminders.sort((a, b) => a.reminderTime - b.reminderTime)
   
     return reminders
   }
@@ -244,7 +228,6 @@ export const generateId = () => {
     return true
   }
   
-  // Clear all data (for testing)
   export const clearData = () => {
     users.length = 0
     events.length = 0

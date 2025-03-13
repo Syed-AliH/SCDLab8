@@ -9,7 +9,6 @@ export const authenticate = async (req, res, next) => {
       return res.status(401).json({ message: "Authentication required" })
     }
 
-    // Ensure JWT_SECRET is available
     if (!process.env.JWT_SECRET) {
       return res.status(500).json({ message: "Server configuration error" })
     }

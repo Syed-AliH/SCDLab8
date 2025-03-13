@@ -6,11 +6,8 @@ let token
 let userId
 let categoryId
 
-// Setup and teardown
 beforeAll(async () => {
   process.env.JWT_SECRET = "test-secret-key"
-
-  // Create a test user
   const registerRes = await request(app).post("/api/auth/register").send({
     username: "eventuser",
     email: "events@example.com",
@@ -20,7 +17,6 @@ beforeAll(async () => {
   token = registerRes.body.token
   userId = registerRes.body.id
 
-  // Create a test category
   const categoryRes = await request(app).post("/api/categories").set("Authorization", `Bearer ${token}`).send({
     name: "Test Category",
     color: "#ff0000",
@@ -30,10 +26,7 @@ beforeAll(async () => {
 })
 
 afterEach(() => {
-  // Clear events before each test
   clearData()
-
-  // Recreate the test user and category
   return request(app)
     .post("/api/auth/register")
     .send({
@@ -90,7 +83,6 @@ describe("Events API", () => {
 
   describe("GET /api/events", () => {
     beforeEach(async () => {
-      // Create some test events
       await request(app).post("/api/events").set("Authorization", `Bearer ${token}`).send({
         name: "Event 1",
         description: "Description 1",
@@ -136,7 +128,6 @@ describe("Events API", () => {
     let eventId
 
     beforeEach(async () => {
-      // Create a test event
       const eventRes = await request(app).post("/api/events").set("Authorization", `Bearer ${token}`).send({
         name: "Update Test Event",
         description: "Original Description",
@@ -163,7 +154,6 @@ describe("Events API", () => {
     let eventId
 
     beforeEach(async () => {
-      // Create a test event
       const eventRes = await request(app).post("/api/events").set("Authorization", `Bearer ${token}`).send({
         name: "Delete Test Event",
         description: "Description",
@@ -178,8 +168,6 @@ describe("Events API", () => {
       const res = await request(app).delete(`/api/events/${eventId}`).set("Authorization", `Bearer ${token}`)
 
       expect(res.statusCode).toEqual(200)
-
-      // Verify event is deleted
       const getRes = await request(app).get(`/api/events/${eventId}`).set("Authorization", `Bearer ${token}`)
 
       expect(getRes.statusCode).toEqual(404)
