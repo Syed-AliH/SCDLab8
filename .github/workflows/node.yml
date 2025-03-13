@@ -27,7 +27,7 @@ jobs:
       run: npm ci
       
     - name: Run tests
-      run: npm test
+      run: NODE_OPTIONS=--experimental-vm-modules npm test
       env:
         JWT_SECRET: test-secret-key
         NODE_ENV: test
@@ -48,5 +48,5 @@ jobs:
       run: npm ci
       
     - name: Run ESLint
-      run: npm run lint || true  # Add '|| true' to prevent workflow failure due to linting errors
+      run: npm run lint || true
 
